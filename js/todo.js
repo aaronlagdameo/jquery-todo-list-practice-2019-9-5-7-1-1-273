@@ -22,6 +22,7 @@ $(document).ready(function () {
 
     let addButton = $('div[id=button]');
     let taskList = $('ol[id=tasks]');
+    let filterList = $('ul[id=filters]');
 
     addButton.on('click', function () {
         let task = $('input[name=ListItem]');
@@ -36,5 +37,20 @@ $(document).ready(function () {
     taskList.on('change', 'input[type=checkbox]', function () {
         let parent = $(this).closest('li');
         $(parent).toggleClass('checked unchecked');
+    });
+
+    filterList.on('click', 'li a', function () {
+        filterList.find('a').removeClass('selected');
+        $(this).addClass('selected');
+
+        let filter = $(this).data('filter');
+        let tasks = $('ol li');
+
+        $(tasks).show();
+        if (filter == 'active') {
+            $(tasks).not('.unchecked').hide();
+        } else if (filter == 'complete') {
+            $(tasks).not('.checked').hide();
+        }
     });
 });
