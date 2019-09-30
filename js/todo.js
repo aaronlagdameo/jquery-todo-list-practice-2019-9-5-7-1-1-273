@@ -32,4 +32,9 @@ $(document).ready(function () {
         taskList.append(taskItem);
         $(task).val('');
     });
+
+    taskList.on('change', 'input[type=checkbox]', function () {
+        let parent = $(this).closest('li');
+        $(parent).toggleClass('checked unchecked');
+    });
 });
