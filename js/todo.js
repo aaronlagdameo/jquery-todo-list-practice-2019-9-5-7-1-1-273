@@ -28,7 +28,8 @@ $(document).ready(function () {
         let task = $('input[name=ListItem]');
         let taskItem = '<li id="' + generateUUID() + '" class="unchecked">' +
             '<input name="done-todo" type="checkbox" class="done-todo">' +
-            task.val() + '</li>';
+            '<label for="done-todo">' + task.val() +
+            '</label>' + '</li>';
 
         taskList.append(taskItem);
         $(task).val('');
@@ -52,5 +53,15 @@ $(document).ready(function () {
         } else if (filter == 'complete') {
             $(tasks).not('.checked').hide();
         }
+    });
+
+    taskList.on('dblclick', 'label[for=done-todo]', function () {
+        let labelText = $(this).text();
+        $(this).replaceWith('<input id="edit" type="text" value="' + labelText + '"/>');
+    });
+
+    taskList.on('blur', 'input[id=edit]', function () {
+        let inputText = $(this).val();
+        $(this).replaceWith('<label for="done-todo">' + inputText + '</label>');
     });
 });
