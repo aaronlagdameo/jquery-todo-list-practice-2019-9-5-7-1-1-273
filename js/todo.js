@@ -28,8 +28,7 @@ $(document).ready(function () {
         let task = $('input[name=ListItem]');
         let taskItem = '<li id="' + generateUUID() + '" class="unchecked">' +
             '<input name="done-todo" type="checkbox" class="done-todo">' +
-            '<label for="done-todo">' + task.val() +
-            '</label>' + '</li>';
+            '<span>' + task.val() + '</span>' + '</li>';
 
         taskList.append(taskItem);
         $(task).val('');
@@ -55,13 +54,17 @@ $(document).ready(function () {
         }
     });
 
-    taskList.on('dblclick', 'label[for=done-todo]', function () {
-        let labelText = $(this).text();
-        $(this).replaceWith('<input id="edit" type="text" value="' + labelText + '"/>');
+    taskList.on('dblclick', 'span', function () {
+        $(this).attr("contenteditable", true);
+        $(this).focus();
+        $(this).on('keypress', function (e) {
+            if (e.which == 13) {
+                $(this).attr("contenteditable", false);
+            }
+        });
     });
 
-    taskList.on('blur', 'input[id=edit]', function () {
-        let inputText = $(this).val();
-        $(this).replaceWith('<label for="done-todo">' + inputText + '</label>');
+    taskList.on('blur', 'span', function () {
+        $(this).attr("contenteditable", false);
     });
 });
